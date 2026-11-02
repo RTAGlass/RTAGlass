@@ -371,10 +371,13 @@ int FieldMenu::Menu_UpdateList(List& l, const platform::Input& input) {
 }
 
 void FieldMenu::Menu_Draw(gfx::Draw2D& d, int label, bool help) const {
-    // The road is the farthest, then the panel, the sign, and the arrows and the cars: the PS2 draws them in
-    // another order with each sprite call's z (its last argument) sorting them. (func_0024F728 starts a batch of
-    // that many sprites.)
+    // The PS2 draws the panel, the sign, the road, the arrows and the cars in that order, each sprite's depth its
+    // piece's z (func_00214EF8's setup, func_00212A00): the road 0xFFFFF0, the list's cars 3, the sign 2, the panel 1,
+    // the arrows and the title's car 0, the smaller in front. So from the back: the road, the list's cars (a row
+    // scrolled past the top panel or the bottom border goes under it), the panel, the sign, the arrows, the title's
+    // car. (func_0024F728 starts a batch of that many sprites.)
     Menu_DrawRoad(d, roadX_, roadY_);
+    Menu_DrawCars(d, 1, 10);
     Menu_DrawPanel(d);
     Menu_DrawSign(d);
     // The arrows blink, 16 frames on and 16 off.
@@ -383,7 +386,7 @@ void FieldMenu::Menu_Draw(gfx::Draw2D& d, int label, bool help) const {
         if (upArrow_) Piece_Draw(d, t0, kArrows[0], 0, 0);
         if (downArrow_) Piece_Draw(d, t0, kArrows[1], 0, 0);
     }
-    Menu_DrawCars(d);
+    Menu_DrawCars(d, 0, 0);
     if (help) Help_Draw(d, 2);
     // Menu_DrawSign's lines (D_0029C1A0), white, 24 apart, over everything. During Q's Rally (race flag 0x1000)
     // Warp's signs (labels 1 and 12-21) warn instead, 12 higher, "Warning!" in colour 6.
@@ -403,9 +406,10 @@ void FieldMenu::Menu_DrawSign(gfx::Draw2D& d) const {
 
 // Menu_DrawCars (0x00212720): each car (POSE picture 2) towing its banner, the banner's lamps (palette 12; a lit
 // car's turn every 16 frames) and its label (picture 1).
-void FieldMenu::Menu_DrawCars(gfx::Draw2D& d) const {
+void FieldMenu::Menu_DrawCars(gfx::Draw2D& d, int first, int last) const {
     const gfx::Texture& labels = d.Get(kPose, 1, 0);
-    for (const Car& c : cars_) {
+    for (int i = first; i <= last; ++i) {
+        const Car& c = cars_[i];
         if (!c.on) continue;
         d.Sprite(d.Get(kPose, 2, kBannerPalette[c.lit]), c.x + 83.0f, c.y + 4.0f, 156, 40, 0, 88, 156, 40);
         d.Sprite(d.Get(kPose, 2, c.colour), (float)c.x, (float)c.y, 83, 50, 0, 0, 83, 50);

@@ -159,12 +159,13 @@ private:
     // keys and controller buttons in the key setup's place and style), Extras (ui/extras_screen.h) and Other (the
     // title Options' Vibration, Speaker and Sound Volume).
     void FieldMenu_Settings(gfx::Draw2D& d, const platform::Input& input);
-    // A screen's drawing: the road, the panel, the sign with `label`'s lines, the arrows, the cars, and with `help`
-    // the button hints (Help_Draw(2), the main screen's).
+    // A screen's drawing, from the back as the PS2's z values sort it: the road, the list's cars, the panel, the sign
+    // with `label`'s lines, the arrows, the title's car, and with `help` the button hints (Help_Draw(2), the main
+    // screen's).
     void Menu_Draw(gfx::Draw2D& d, int label, bool help) const;
-    // func_00211F68 and func_00212720.
+    // func_00211F68 and func_00212720 (cars `first` to `last`; all by default).
     void Menu_DrawSign(gfx::Draw2D& d) const;
-    void Menu_DrawCars(gfx::Draw2D& d) const;
+    void Menu_DrawCars(gfx::Draw2D& d, int first = 0, int last = 10) const;
 
     List lists_[2];
     // The Radio screen's state (D_01727B90 + 0x8114).
