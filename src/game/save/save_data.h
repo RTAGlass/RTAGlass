@@ -230,7 +230,7 @@ void Save_AddDistance(int32_t odometer);
 // Save_Beaten (func_0023DCC0): driver record (group, index) placed behind the player in an Adventure race (+0x558: a
 // word per group, My City's 13 in word 9).
 bool Save_Beaten(int group, int index);
-// Team_State (func_0023DBC8): 1 no teammates yet, 2 one, 0 the team is full.
+// Team_State (func_0023DBC8): the first empty teammate slot (1 or 2), 0 the team is full.
 int Team_State();
 // My City's residents (D_002A2B70: 25 people of the other towns, by (group, index)): Resident_Of the one (town,
 // place) is, or -1; Resident_MovedIn (func_0023DE30) bit k of +0x670; Resident_MoveIn (func_0023CB68) moves k in,

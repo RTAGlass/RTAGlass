@@ -327,8 +327,10 @@ bool Save_Beaten(int group, int index) {
 
 int Team_State() {
     const SaveRecord& r = Save_Current();
-    int n = (r.teammates[0][0] != 0) + (r.teammates[1][0] != 0);
-    return n == 0 ? 1 : n == 1 ? 2 : 0;
+    // The first empty slot, so a teammate leaving slot 1 leaves room there (not a count: that put the next one over
+    // teammate 2 and left slot 1 empty, which hides teammate 2 from the car lists that need slot 1 first).
+    if (!r.teammates[0][0]) return 1;
+    return r.teammates[1][0] ? 0 : 2;
 }
 
 namespace {
