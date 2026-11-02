@@ -54,7 +54,7 @@ void Photo_DrawCar(gfx::Draw2D& d, const Cars& cars, const PhotoCar& p) {
     d.ClearDepth();
     PhotoCar shown = p;
     shown.car.record = &shown.record;
-    cars.Car_DrawCard(d, cam, light, shown.car, false, true);
+    cars.Car_DrawCard(d, cam, light, shown.car, 0, true);
 }
 
 }  // namespace game

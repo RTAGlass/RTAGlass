@@ -280,7 +280,7 @@ void PartsScreen::Parts_DrawCard(int entry, int x, int y, int size, uint32_t gre
     car.record = &record;
     car.partFlags = shown.partFlags;
     d_.ClearDepth();
-    cars_.Car_DrawCard(d_, cam, light_, car, cat == 8 || cat == 9 || cat == 11 || cat == 12);
+    cars_.Car_DrawCard(d_, cam, light_, car, cat == 8 || cat == 9 || cat == 11 || cat == 12 ? cat : 0);
 }
 
 // func_00246250's placement: card k of n on a ring, a = 2 pi ((k - sel) mod n + scroll / 8) / n; x = 240 + 112 sin a,

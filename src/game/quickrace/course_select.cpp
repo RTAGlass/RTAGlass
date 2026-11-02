@@ -649,7 +649,7 @@ void CourseSelect::Versus_DrawCar(int i) {
     Light_Setup(light_, 1);
     Light_SetHighlight(light_, cam.forward);
     d_.ClearDepth();
-    models_.Car_DrawCard(d_, cam, light_, shown_[i], false, true);   // Car_Draw at distance 0 (func_002236D8)
+    models_.Car_DrawCard(d_, cam, light_, shown_[i], 0, true);   // Car_Draw at distance 0 (func_002236D8)
 }
 
 // func_0022EDB8: both players' money, player 1's at (0x140, 0x2A) and player 2's at (0x1B8, 0x4A).

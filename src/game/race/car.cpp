@@ -739,7 +739,7 @@ int Cars::Car_Draw(gfx::Draw2D& d, const gfx::Camera3D& camera, const RaceLight&
 }
 
 void Cars::Car_DrawCard(gfx::Draw2D& d, const gfx::Camera3D& camera, const RaceLight& raceLight, const RaceCar& car,
-                        bool silhouette, bool close) const {
+                        int silhouette, bool close) const {
     auto it = bodies_.find(car.record->body);
     if (it == bodies_.end()) return;
     const Body& b = it->second;
@@ -751,13 +751,23 @@ void Cars::Car_DrawCard(gfx::Draw2D& d, const gfx::Camera3D& camera, const RaceL
     st.lighting = &light;
     st.transform = bm;
     gfx::DrawStyle parts = st;
-    if (silhouette)
+    if (silhouette) {
+        // func_00244F60's cases 8/11, 9 and 12: the body black (sections 0 and 2), then in the normal light the
+        // card's part: the wing (section 3) or the sticker (section 5); the parts of flags 0x1FF but on the
+        // Sticker card. The fins' section never stands in for section 2 here, nor are the jets drawn.
         for (int k = 0; k < 3; ++k) st.tint[k] = 0.0f;
-    b.model[0].Draw(d, camera, kFrame, st);
-    b.model[(car.partFlags & kPartFins) ? 3 : 2].Draw(d, camera, kFrame, st);
-    for (int s = 0; s < 2; ++s)
-        if (car.partFlags & (kPartJet << s)) b.model[4 + s].Draw(d, camera, kFrame, st);
-    Car_DrawParts(d, camera, car, parts, false);
+        b.model[0].Draw(d, camera, kFrame, st);
+        b.model[2].Draw(d, camera, kFrame, st);
+        if (silhouette == 9 && (car.partFlags & kPartFins)) b.model[3].Draw(d, camera, kFrame, parts);
+        if (silhouette == 12 && (car.partFlags & (kPartJet << 1))) b.model[5].Draw(d, camera, kFrame, parts);
+        if (silhouette != 12) Car_DrawParts(d, camera, car, parts, false);
+    } else {
+        b.model[0].Draw(d, camera, kFrame, st);
+        b.model[(car.partFlags & kPartFins) ? 3 : 2].Draw(d, camera, kFrame, st);
+        for (int s = 0; s < 2; ++s)
+            if (car.partFlags & (kPartJet << s)) b.model[4 + s].Draw(d, camera, kFrame, st);
+        Car_DrawParts(d, camera, car, parts, false);
+    }
     if (car.partFlags & kPartBigTires) {
         Car_DrawBigTires(d, camera, car, st, m, false);
         return;

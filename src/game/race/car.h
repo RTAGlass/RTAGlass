@@ -117,13 +117,14 @@ public:
                    int count, int hidden = -1, bool mirrored = false) const;
 
     // The Change parts cards' cars (func_00244F60's body, Lights, Wing Set, Options and Sticker cards): `car`
-    // standing level, its near body, its parts and tires. With `silhouette` the body and tires are black (the
-    // light set D_002A8BB0 those cards use; on the PS2 they show black) and only the parts of flags 0x1FF keep their
-    // colours.
+    // standing level, its near body, its parts and tires. `silhouette` is the parts category of a card that shows
+    // the car black (the light set D_002A8BB0; 0 none): the body (section 0, and 2 in place of 3) and the tires are
+    // black, and the card's part keeps its colours in the normal light: Lights (8) and Options (11) the parts of
+    // flags 0x1FF; Wing Set (9) those and section 3, the wing; Sticker (12) section 5, the sticker, alone.
     // `close`: as Car_Draw at distance 0 (func_002236D8: the photos, the 2 Player cards), light colour set 0 and the
     // close-up WHEEL.BIN wheels instead of the tires.
     void Car_DrawCard(gfx::Draw2D& d, const gfx::Camera3D& camera, const RaceLight& light, const RaceCar& car,
-                      bool silhouette, bool close = false) const;
+                      int silhouette, bool close = false) const;
     // The parts screen's Wheel card (func_00244F60, category 7): WHEEL.BIN's hub of Wheels item `item` alone at the
     // origin, both paints the wheel colour `wheelColor` (the edited car's, SaveCar +5).
     void Car_DrawWheelCard(gfx::Draw2D& d, const gfx::Camera3D& camera, const RaceLight& light, int item,
