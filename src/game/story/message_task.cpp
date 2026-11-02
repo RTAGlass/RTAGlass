@@ -790,7 +790,7 @@ void MessageTask::Message_EndCode(const platform::Input& input) {
     case 0x0B: {
         // The horn (D_002F00AC: SE 0x3C + 2 x horn; 0x10 the player's own, cars[0].parts[13]), by func_002083C0.
         int horn = a[0] == 0x10 ? Save_Current().cars[0].parts[13] : a[0];
-        audio::Sound_PlaySe(0x3C + 2 * horn);
+        audio::Sound_PlaySeFor(0x3C + 2 * horn, 0x40);
         child(kChildHorn);
         return;
     }

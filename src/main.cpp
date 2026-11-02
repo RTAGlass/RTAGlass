@@ -881,6 +881,7 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE, LPWSTR, int showCmd) {
             if (p.frames > 1 && p.frame + p.frames == frame) input.Script(p.pad, p.button, false), input.Update();
         }
         title->Update(input);
+        audio::Sound_Frame();
         if (perf) {
             // The update (the game, its draws and Present) split by where its time went: the renderer's draws and
             // uploads in time stamp counter ticks, scaled by the update's own; Present by the clock; the game the

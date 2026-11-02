@@ -27,6 +27,13 @@ void Sound_Render(int16_t* out, int frames);
 void Sound_Request(uint32_t cmd);
 // Sound_PlaySe (0x00258E50): Sound_Request with the default (centre) pan.
 void Sound_PlaySe(uint32_t id);
+// func_002083C0's task: Sound_PlaySe(id), then its stop (id | 0x8000) `frames` game frames later, counted by
+// Sound_Frame. The horn previews (the parts screen's Horn, talk code 0x0B) use it with 64 frames: the horn is a
+// held sound and would play on otherwise.
+void Sound_PlaySeFor(uint32_t id, int frames);
+// Once a game frame (the main loop, after the game's update): sends the stops of Sound_PlaySeFor's sounds that are
+// due.
+void Sound_Frame();
 // Sound_LoadSong (0x00258EC8): `arg` = (file << 16) | (slot << 8) | entry. Stops the song, loads file number `file`
 // of the game's sound file table into the slot and selects the entry as the song.
 void Sound_LoadSong(uint32_t arg);

@@ -204,7 +204,7 @@ void PartsScreen::Parts_Pick(int item) {
         car.body = (uint8_t)item;
         car.paint = r.bodyPaint[item];
     } else {
-        if (cat == 13) audio::Sound_PlaySe(kParts13[item].value);
+        if (cat == 13) audio::Sound_PlaySeFor(kParts13[item].value, 0x40);
         Part_Fit(car, cat, item);
     }
     changed_ = true;

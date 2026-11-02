@@ -300,6 +300,32 @@ void Sound_Request(uint32_t cmd) {
 
 void Sound_PlaySe(uint32_t id) { Sound_Request(id | 0x40400000); }
 
+namespace {
+// Sound_PlaySeFor's sounds waiting for their stop (each its own task on the PS2, so one ending can stop a later
+// start of the same sound, as there).
+struct TimedSe {
+    uint32_t id;
+    int frames;
+};
+std::vector<TimedSe> g_timedSe;
+}  // namespace
+
+void Sound_PlaySeFor(uint32_t id, int frames) {
+    Sound_PlaySe(id);
+    g_timedSe.push_back({id, frames});
+}
+
+void Sound_Frame() {
+    for (size_t i = 0; i < g_timedSe.size();) {
+        if (--g_timedSe[i].frames > 0) {
+            ++i;
+            continue;
+        }
+        Sound_PlaySe(g_timedSe[i].id | 0x8000);
+        g_timedSe.erase(g_timedSe.begin() + i);
+    }
+}
+
 void Sound_LoadSong(uint32_t arg) {
     if (!g_sound) return;
     Sound_StopSong();
