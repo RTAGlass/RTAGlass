@@ -1,7 +1,7 @@
 # The reference build's fingerprint (scripts/build/fingerprint.py): what build.py checks a new build against.
 # Made with MSVC v141 14.16.27023 (Visual Studio 2022 17.14), Windows SDK 7.1A, DirectX SDK (June 2010), Python 3.13
 # and requirements.txt. Another v141 update gives different tools\*.exe; everything else should still match.
-file dist/RTAGlass/README.txt  a5e83a8fbf0981e7a3db0c29d9d12da36ca89f79c0454a391ff1365ac295adfe
+file dist/RTAGlass/README.txt  f16526c189561cdca029a45c7c32374e4daae9749df9381e3f9f9ad8093eea87
 file dist/RTAGlass/data/collision.rpk  1fefe5927cc58f66cd56f275fb29450420593bdcf89fb3f5653ad3d5f25cc86f
 file dist/RTAGlass/data/models.rpk  e399df88d6459244a8ed7d73dd4b1d3467495490f55c7ab681a0d529b237a188
 file dist/RTAGlass/data/textures.rpk  9559a0cf375e663f5891cfb911da5bb900f4dad6290571aa71c0b86cae5685cb
