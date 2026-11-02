@@ -510,6 +510,11 @@ void Race::Race_Setup(int id) {
     singleLap_ = -1;
     singleLapFade_ = 0;
     noPause_ = false;
+    // Every race starts with the race flags clear: an event left on its board (the roulette's or golf's race flag
+    // 0x2000, no 3D view, the engines muted) or its overhead camera (0x80000000) would otherwise carry into the next
+    // race, which then showed the HUD over the blue clear colour.
+    if (hideView_) Roulette_HideView(false);
+    overhead_ = false;
     if (task_ != kTaskRace) {
         float placed[3] = {cars_[0].pos[0], cars_[0].pos[1], cars_[0].pos[2]};
         Race_EventStart();
